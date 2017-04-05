@@ -1,9 +1,11 @@
 from django.conf.urls import url, include
 from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token
 
 from .views import (index, ProjectViewSet, TaskStatusViewSet,
     TaskViewSet, ProjectMemberViewSet, TaskExecutorViewSet, UserTaskViewSet,
     PeopleViewSet, UserViewSet, TaskCommentViewSet, TaskFileViewSet,
+    SessionIdJSONWebToken
     )
 
 
@@ -23,7 +25,11 @@ router.register(r'taskfiles', TaskFileViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # backend session authentication
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # fronend jwt authentication
+    url(r'^api/auth/login/', obtain_jwt_token),
+    url(r'^api/auth/token-sessionid/', SessionIdJSONWebToken),
     url(r'^$', index, name='taskin'),
     url(r'^(?P<path>.*)/$', index), # for any other request
 ]

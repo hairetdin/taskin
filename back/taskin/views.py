@@ -2,19 +2,62 @@ from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.contrib.sessions.models import Session
 
 from rest_framework import viewsets, permissions
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework_jwt.settings import api_settings
+from rest_framework import status
 
 from .models import (Project, TaskStatus, Task, ProjectMember, TaskExecutor,
     TaskComment, TaskFile, Person)
 from .serializers import (ProjectSerializer, TaskStatusSerializer,
     TaskSerializer, ProjectMemberSerializer, TaskExecutorSerializer,
     PeopleSerializer, UserSerializer, TaskCommentSerializer,
-    TaskFileSerializer,
+    TaskFileSerializer, JwtUserSerializer,
     )
 from .permissions import (IsMember, IsProjectMember, IsExecutorProjectMember,
                             IsAuthenticatedReadOnly)
+
+
+# extend jwt response
+def jwt_response_payload_handler(token, user=None, request=None):
+    return {
+        'access_token': token,
+        'user': JwtUserSerializer(user, context={'request': request}).data,
+	}
+
+
+# get user from session
+def get_user_from_session(session_key):
+    try:
+        session = Session.objects.get(session_key = session_key)
+        uid = session.get_decoded().get('_auth_user_id')
+        return User.objects.get(pk = uid)
+    except:
+        return None
+
+
+@api_view(['POST'])
+def SessionIdJSONWebToken(request):
+    if request.method == 'POST':
+        session_key = request.session.session_key
+        user = get_user_from_session(session_key)
+        if user:
+            # create jwt for response
+            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+            username = user.username
+            response_data = jwt_response_payload_handler(token, user, request)
+            return Response(response_data)
+        else:
+            # if not user session return error 401
+            response_data = {"error":"User session not found."}
+            return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
 
 
 # show fronend index

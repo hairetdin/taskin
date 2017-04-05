@@ -5,6 +5,12 @@ from .models import (Project, TaskStatus, Task, ProjectMember, TaskExecutor,
     TaskComment, TaskFile, Person)
 
 
+class JwtUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id','username',)
+
+
 class TaskFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskFile
