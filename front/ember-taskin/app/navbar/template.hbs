@@ -1,0 +1,22 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      {{#link-to 'index' class="navbar-brand"}}Home{{/link-to}}
+      {{#link-to 'taskin' class="navbar-brand"}}Taskin{{/link-to}}
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav">
+            {{#link-to 'taskin' tagName="li"}}<a href="">Item1</a>{{/link-to}}
+            {{#link-to 'taskin' tagName="li"}}<a href="">Item2</a>{{/link-to}}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+    {{user-info}}
+  </div><!-- /.container-fluid -->
+</nav>

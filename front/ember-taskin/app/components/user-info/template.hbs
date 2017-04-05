@@ -1,0 +1,19 @@
+<div class="navbar-right">
+  {{#if session.isAuthenticated}}
+    <span style="color:white;">
+      {{if session.data.authenticated.user.first_name session.data.authenticated.user.first_name session.data.authenticated.user.username}}
+      <button {{action 'invalidateSession'}} class="btn btn-default">
+        Выход
+      </button>
+    </span>
+
+  {{else}}
+    <span style="color:white;margin-right:10px;">
+      Вы не авторизованы.
+    </span>
+    {{#link-to 'taskin.login' class="btn btn-default btn-login" role="button"}}Вход{{/link-to}}
+  {{/if}}
+</div>
+
+
+{{yield}}

@@ -36,7 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'url', 'username', 'first_name', 'last_name',
                 'email', 'is_superuser', 'person',
-                'project_creator', 'task_creator', 'projects_member',
+                'project_creator', 'tasks_creator', 'projects_member',
                 'projectmember_set', 'taskfiles_creator',
                 )
 

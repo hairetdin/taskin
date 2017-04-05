@@ -1,0 +1,11 @@
+{{!-- app/login/template.hbs --}}
+
+{{#if session.isAuthenticated}}
+  <button {{action 'invalidateSession'}} class="btn btn-default">
+    Выход
+  </button>
+{{else}}
+  <button {{action 'authenticate'}} class="btn btn-default">
+    Вход
+  </button>
+{{/if}}

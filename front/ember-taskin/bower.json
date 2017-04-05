@@ -1,5 +1,6 @@
 {
   "name": "ember-taskin",
   "dependencies": {
+    "js-cookie": "^2.0.4"
   }
 }
