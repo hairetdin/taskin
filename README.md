@@ -1,1 +1,1 @@
-# The project for task managment
+# The task managment
