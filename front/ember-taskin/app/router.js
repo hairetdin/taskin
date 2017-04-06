@@ -16,6 +16,7 @@ Router.map(function() {
     this.route('taskcomment');
     this.route('taskcomments');
     this.route('taskfiles');
+    this.route('people');
   });
   this.route('login');
 });

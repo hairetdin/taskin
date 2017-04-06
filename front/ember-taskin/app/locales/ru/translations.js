@@ -19,7 +19,6 @@ export default {
   "Total projects":"Всего проектов",
 
   //tasboard.task translation
-  "Tasks":"Задачи",
   "Create new task":"Создать новую задачу",
   "All tasks":"Все задачи",
   "The closed tasks hide":"Скрыть закрытые",
@@ -71,7 +70,6 @@ export default {
 
   // taskboard.taskstatus translation
   //"The project '(session.data.project.name)'s' task statuses":`Статусы задач в "{{project_name}}"`,
-  "Task statuses": "Статусы задач",
   "Create task status": "Добавить статус задачи",
   "Task status list": "Список статусов задач",
   "Order": "Номер по порядку",
