@@ -1,0 +1,33 @@
+<h3>{{t "Detail"}}</h3>
+
+<p>Name: {{model.name}}</p>
+<p>Created: {{model.date_created}}</p>
+<p>About: {{model.about}}</p>
+<p>Creator: {{model.creator.username}}</p>
+<p>Members:</p>
+  {{#link-to 'taskin.members' model }}{{t "Edit"}}{{/link-to}}
+  <ul>
+  {{#each model.members as |member|}}
+    <li>
+      {{member.person_name}}
+    </li>
+  {{/each}}
+</ul>
+
+<p>Task statuses:</p>
+  {{#link-to 'taskin.taskstatuses' model}}
+    <a href>{{t "Edit"}}</a>
+  {{/link-to}}
+  <ul>
+  {{#each model.task_statuses as |task_status|}}
+    <li>
+      {{task_status.name}}
+    </li>
+  {{/each}}
+  </ul>
+
+<p>
+  {{#link-to 'taskin.tasks' model}}
+    {{t "Tasks"}}
+  {{/link-to}}
+</p>

@@ -1,0 +1,42 @@
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>{{t "Id"}}</th>
+      <th>{{t "Name"}}</th>
+      <th>{{t "Tasks"}}</th>
+      <th>{{t "Task statuses"}}</th>
+      <th>{{t "Members"}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |project|}}
+    <tr>
+      <td>{{#link-to 'taskin.projects.show' project}}{{project.id}}{{/link-to}}</td>
+      <td>
+        {{#link-to 'taskin.projects.show' project tagName='button' class="btn btn-info"}}
+          {{project.name}}
+        {{/link-to}}
+      </td>
+      <td>
+        {{#link-to 'taskin.tasks' project}}
+          {{t "Tasks"}}
+        {{/link-to}}
+      </td>
+      <td>
+        {{#link-to 'taskin.taskstatuses' project}}
+          <a href>{{t "Task statuses"}}</a>
+        {{/link-to}}
+      </td>
+      <td>{{#link-to 'taskin.members' project }}{{t "Members"}}{{/link-to}}</td>
+      <td>{{#link-to 'taskin.projects.edit' project class="btn btn-default"}}{{t "Edit"}}{{/link-to}}</td>
+      <td>
+        <button {{action 'deleteProject' project}} class="btn btn-default">
+          {{t "Delete"}}
+        </button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<p>{{t "Total projects"}}: {{model.length}}</p>

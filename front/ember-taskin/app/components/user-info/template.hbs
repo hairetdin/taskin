@@ -1,6 +1,6 @@
 <div class="navbar-right">
   {{#if session.isAuthenticated}}
-    <span style="color:white;">
+    <span style="color:black;">
       {{if session.data.authenticated.user.first_name session.data.authenticated.user.first_name session.data.authenticated.user.username}}
       <button {{action 'invalidateSession'}} class="btn btn-default">
         Выход

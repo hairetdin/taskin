@@ -1,0 +1,25 @@
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>{{t "New project"}}</h3>
+  </div>
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Name"}}:</label>
+        <div class="col-sm-10">
+          {{input type="text" class="form-control" value=model.project.name placeholder=(t "Project name")}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "About"}}:</label>
+        <div class="col-sm-10">
+          {{textarea class="form-control" rows="5" value=model.project.about placeholder=(t "About this project")}}
+        </div>
+      </div>
+      <button class="btn btn-success" type="submit" {{action 'saveProject' model.project}}>{{t "Save"}}</button>
+    </form>
+  </div>
+</div>
+
+{{outlet}}

@@ -9,7 +9,11 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('taskin', function() {
     this.route('login');
-    this.route('projects');
+    this.route('projects', function() {
+      this.route('new');
+      this.route('edit');
+      this.route('show');
+    });
     this.route('tasks');
     this.route('members');
     this.route('taskstatuses');

@@ -1,1 +1,18 @@
-{{outlet}}
+<div class="row">
+  <h3>{{t "Projects"}}</h3>
+  <div class="col-sm-3 col-md-2 sidebar">
+    {{!-- left menu --}}
+		<ul class="nav nav-sidebar">
+      {{#link-to 'taskin.projects.new' tagName="li"}}
+        <a href>{{t "Create new project"}}</a>
+      {{/link-to}}
+      {{!--
+      <li></li>
+      --}}
+    </ul>
+	</div>
+  <div class="col-sm-9 main">
+    {{!-- right content --}}
+  </div>
+  {{outlet}}
+</div>
