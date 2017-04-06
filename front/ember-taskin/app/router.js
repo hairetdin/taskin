@@ -9,6 +9,13 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('taskin', function() {
     this.route('login');
+    this.route('projects');
+    this.route('tasks');
+    this.route('members');
+    this.route('taskstatuses');
+    this.route('taskcomment');
+    this.route('taskcomments');
+    this.route('taskfiles');
   });
   this.route('login');
 });

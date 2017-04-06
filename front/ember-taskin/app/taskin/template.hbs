@@ -8,7 +8,7 @@
   <div class="container-fluid">
 
     <div class="navbar-header">
-      {{#link-to 'taskboard' (query-params page=1)}}<a class="navbar-brand" href>Taskboard</a>{{/link-to}}
+      {{#link-to 'taskin' (query-params page=1)}}<a class="navbar-brand" href>Taskin</a>{{/link-to}}
     </div>
     <ul class="nav navbar-nav">
       <li class="dropdown">
@@ -16,7 +16,7 @@
           {{t "Projects"}} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          {{#link-to 'taskboard.projects' tagName="li"}}
+          {{#link-to 'taskin.projects' tagName="li"}}
             <a href>{{t "All projects"}}</a>
           {{/link-to}}
           {{#link-to 'taskboard.projects.new' tagName="li"}}
@@ -43,7 +43,7 @@
     </form>
     {{#if session.data.project.name}}
       <ul class="nav navbar-nav">
-        {{#link-to 'taskboard.tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
+        {{#link-to 'taskin.tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
       </ul>
     {{/if}}
 
