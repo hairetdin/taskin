@@ -2,3 +2,63 @@
   {{partial 'navbar'}}
   {{outlet}}
 </div>
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      {{#link-to 'taskboard' (query-params page=1)}}<a class="navbar-brand" href>Taskboard</a>{{/link-to}}
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          {{t "Projects"}} <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          {{#link-to 'taskboard.projects' tagName="li"}}
+            <a href>{{t "All projects"}}</a>
+          {{/link-to}}
+          {{#link-to 'taskboard.projects.new' tagName="li"}}
+            <a href>{{t "Create new project"}}</a>
+          {{/link-to}}
+          {{!-- <li><a href="#">Page 1-1</a></li> --}}
+        </ul>
+      </li>
+    </ul>
+
+    <form class="navbar-form navbar-left">
+      <div class="form-group">
+        <select class="form-control" onchange={{action "selectProject" value="target.value"}}>
+          {{#if session.data.project.name}}
+            <option value={{session.data.project.id}}>{{session.data.project.name}}</option>
+          {{else}}
+            <option value="">{{t "Current project"}}</option>
+          {{/if}}
+          {{#each model as |project|}}
+            <option value={{project.id}}>{{project.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </form>
+    {{#if session.data.project.name}}
+      <ul class="nav navbar-nav">
+        {{#link-to 'taskboard.tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
+      </ul>
+    {{/if}}
+
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col-sm-3 col-md-2 sidebar">
+    {{!-- left menu --}}
+		<ul class="nav nav-sidebar">
+      {{!-- <li></li> --}}
+    </ul>
+	</div>
+  <div class="col-sm-9 main">
+    {{!-- right content --}}
+  </div>
+  {{outlet}}
+</div>

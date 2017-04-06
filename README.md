@@ -16,3 +16,10 @@ For backend
 
 See article
 * http://hairetdin.blogspot.ru/2017/02/ember-django-session-authentication.html
+
+### Authentication
+
+For authentication used:
+* Django session if exist
+* If Django session does not exist, authentication will redirect to /login page.
+Default frontend /login realize for using backend jwt authentication.
