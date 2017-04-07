@@ -10,10 +10,10 @@
         {{#link-to 'taskin.tasks' (query-params closed=0) tagName="li"}}<a href>{{t "The closed tasks hide"}}</a>{{/link-to}}
 
         <p>{{t "Filter by executor"}}:</p>
-          {{#link-to 'taskin.tasks' (query-params executor=0) tagName="li"}}<a href>{{t "Executor is empty"}}</a>{{/link-to}}
-          {{#each model.members as |executor|}}
-            {{#link-to 'taskin.tasks' (query-params page=1 executor=executor.id) tagName="li"}}<a href>{{executor.full_name}}</a>{{/link-to}}
-          {{/each}}
+        {{#link-to 'taskin.tasks' (query-params executor=0) tagName="li"}}<a href>{{t "Executor is empty"}}</a>{{/link-to}}
+        {{#each model.members as |executor|}}
+          {{#link-to 'taskin.tasks' (query-params page=1 executor=executor.id) tagName="li"}}<a href>{{executor.full_name}}</a>{{/link-to}}
+        {{/each}}
       </ul>
   	</div>
     <div class="col-sm-9 main">

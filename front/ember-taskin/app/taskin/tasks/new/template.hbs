@@ -54,12 +54,12 @@
               key-up=(action 'handleFilterCustomer')
               autocomplete="off"
               class="form-control"
-              placeholder="Введите имя заказчика"
+              placeholder="Enter customer name"
             }}
             <ul class="dropdown-menu btn-block">
               {{#if newPerson}}
-                <li class="dropdown-header">Имя в базе не найдено.</li>
-                <li class="dropdown-header">Новое имя будет добавленопри сохранении.</li>
+                <li class="dropdown-header">Name not found in base.</li>
+                <li class="dropdown-header">Name will add after save.</li>
                 <li class="dropdown-header"></li>
               {{/if}}
               {{#each customers as |customer|}}
@@ -70,19 +70,7 @@
             </ul>
           </div>
         </div>
-        <!--
-        <div class="top dropdown col-sm-8" id="search-bar">
-          <span class="fa fa-search" id="btn-search" data-toggle="dropdown"></span>
-          {{input type="text" value=userValue focus-in='focusedCustomer' key-up=(action 'handleFilterCustomer') autocomplete="off" class="form-control" placeholder="Введите заказчика"}}
-          <ul class="dropdown-menu">
-            {{#each customers as |customer|}}
-              <li class="list-group-item" onclick={{action "customerClick" customer.name customer}}>
-                <a>{{customer.name}}</a>
-              </li>
-            {{/each}}
-          </ul>
-        </div>
-        -->
+
         <div class="col-sm-2">
           {{#if model.customer.id}}
             {{#link-to 'company.people.show' model.customer.id target="_blank"}}
@@ -95,7 +83,9 @@
         <label class="col-sm-2 control-label">{{t "Execute to date"}}:</label>
         <div class="col-sm-10">
           {{date-time-picker model.date_exec_max action=(action (mut model.date_exec_max)) class="form-control"}}
-          ({{t "russian format"}}: {{moment-format model.date_exec_max 'DD.MM.YYYY, H:mm'}})
+          {{#if model.date_exec_max}}
+            ({{t "date in russian format"}}: {{moment-format model.date_exec_max 'DD.MM.YYYY, H:mm'}})
+          {{/if}}
         </div>
       </div>
       <div class="form-group">

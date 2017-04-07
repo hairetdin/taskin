@@ -41,7 +41,7 @@ export default {
   "About this task":"Описание этой задачи",
   "Execute to date":"Выполнить до даты",
   "Deadline for execution":"Крайний срок исполнения",
-  "russian format": "русский формат даты",
+  "date in russian format": "русский формат даты",
   "Accept for execution": "Принять к исполнению",
   "Remove executor":"Убрать исполнителя",
   "Task completed":"Задача выполнена",
