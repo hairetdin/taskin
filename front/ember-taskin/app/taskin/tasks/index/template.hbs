@@ -1,0 +1,62 @@
+{{!--
+<h2>Task index page</h2>
+--}}
+
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{t "Id"}}</th>
+          <th>{{t "Created date"}}</th>
+          <th>{{t "Subject"}}</th>
+          <th>{{t "Status"}}</th>
+          <th>{{t "Customer"}}</th>
+          <th>{{t "Executors"}}</th>
+          <th>{{t "Comments"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each sortedTasks as |task|}}
+        <tr class="{{if task.date_closed 'success'}}{{if task.isOverdue 'danger'}}">
+            <td>
+              {{#link-to 'taskin.taskcomments' task tagName='button' class="btn btn-info"}}{{task.id}}{{/link-to}}
+            </td>
+            <td>
+              {{moment-format task.date_created 'DD.MM.YYYY'}}
+            </td>
+            <td>{{task.subject}}</td>
+            <td>{{task.status.name}}</td>
+            <td>{{task.customer.name}}</td>
+            <td>
+              <ul>
+                {{#each task.executors as |executor|}}
+                  <li>
+                  {{executor.user.full_name}}
+                  </li>
+                {{/each}}
+              </ul>
+            </td>
+            <td>
+              {{#link-to "taskin.taskcomments" task}} {{task.task_comments.length}} {{/link-to}}
+            </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="pager">
+  <p>{{t "Current page"}}: {{page}}</p>
+   <li>
+     {{#link-to 'taskin.tasks' (query-params page=model.queryTasks.meta.previous) disabled=(if model.queryTasks.meta.previous false true)}}
+       <a href>{{t "Previous"}}</a>
+     {{/link-to}}
+   </li>
+   <li>
+     {{#link-to 'taskin.tasks' (query-params page=model.queryTasks.meta.next) disabled=(if model.queryTasks.meta.next false true)}}
+       <a href>{{t "Next"}}</a>
+     {{/link-to}}
+   </li>
+  </ul>
+  <p>{{t "Total task"}}: {{model.queryTasks.meta.count}}</p>

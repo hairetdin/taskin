@@ -72,6 +72,12 @@ Router.map(function() {
       this.route('new');
       this.route('show');
     });
+    
+    this.route('tasks', function() {
+      this.route('edit');
+      this.route('new');
+      this.route('show');
+    });
     */
   });
   this.route('login');
