@@ -5,10 +5,6 @@
       {{#link-to 'taskin' (query-params page=1)}}<a class="navbar-brand" href>Taskin</a>{{/link-to}}
     </div>
     <ul class="nav navbar-nav">
-      {{#link-to 'taskin.projects' tagName="li"}}
-        <a href>{{t "Projects"}}</a>
-      {{/link-to}}
-
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           {{t "Projects"}} <span class="caret"></span>
@@ -23,7 +19,7 @@
           {{!-- <li><a href="#">Page 1-1</a></li> --}}
         </ul>
       </li>
-      
+
     </ul>
 
     <form class="navbar-form navbar-left">
