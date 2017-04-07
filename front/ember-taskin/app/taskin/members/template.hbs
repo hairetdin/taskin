@@ -1,1 +1,20 @@
-{{outlet}}
+<h3>{{t "Members"}}</h3>
+  {{model.id}}
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      {{!-- left menu --}}
+  		<ul class="nav nav-sidebar">
+        {{!-- <li></li> --}}
+        {{#link-to 'taskin.members.new' tagName="li"}}
+          <a href>{{t "Add member"}}</a>
+        {{/link-to}}
+        {{#link-to 'taskin.members' tagName="li"}}
+          <a href>{{t "Members list"}}</a>
+        {{/link-to}}
+      </ul>
+  	</div>
+    <div class="col-sm-9 main">
+      {{!-- right content --}}
+      {{outlet}}
+    </div>
+  </div>

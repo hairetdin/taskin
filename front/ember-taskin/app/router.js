@@ -66,6 +66,12 @@ Router.map(function() {
       this.route('new');
       this.route('show');
     });
+
+    this.route('members', function() {
+      this.route('edit');
+      this.route('new');
+      this.route('show');
+    });
     */
   });
   this.route('login');
