@@ -1,1 +1,20 @@
-{{outlet}}
+<h3>{{t "Task statuses"}}</h3>
+<div class="row">
+
+    <div class="col-sm-3 col-md-2 sidebar">
+      {{!-- left menu --}}
+  		<ul class="nav nav-sidebar">
+        {{!-- <li></li> --}}
+        {{#link-to 'taskin.taskstatuses.new' tagName="li"}}
+          <a href>{{t "Create task status"}}</a>
+        {{/link-to}}
+        {{#link-to 'taskin.taskstatuses' tagName="li"}}
+          <a href>{{t "Task status list"}}</a>
+        {{/link-to}}
+      </ul>
+  	</div>
+    <div class="col-sm-9 main">
+      {{!-- right content --}}
+      {{outlet}}
+    </div>
+</div>

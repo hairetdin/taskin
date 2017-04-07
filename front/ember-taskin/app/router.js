@@ -58,8 +58,15 @@ Router.map(function() {
     this.route('taskcomment');
     this.route('taskcomments');
     this.route('taskfiles');
-    */
+
     this.route('people');
+
+    this.route('taskstatuses', function() {
+      this.route('edit');
+      this.route('new');
+      this.route('show');
+    });
+    */
   });
   this.route('login');
 });
