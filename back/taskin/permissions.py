@@ -31,7 +31,7 @@ class IsMember(permissions.BasePermission):
         current_project = obj
 
         try:
-            current_project_member = current_project.projectmember_set.get(user=request.user)
+            current_project_member = current_project.projectmember_set.filter(user=request.user).last()
         except ObjectDoesNotExist:
             current_project_member = None
 
@@ -60,7 +60,7 @@ class IsProjectMember(permissions.BasePermission):
         current_project = obj.project
 
         try:
-            current_project_member = current_project.projectmember_set.get(user=request.user)
+            current_project_member = current_project.projectmember_set.filter(user=request.user).last()
         except ObjectDoesNotExist:
             current_project_member = None
 

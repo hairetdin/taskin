@@ -22,7 +22,7 @@ export default DS.Model.extend({
       return `${this.get('username')}`;
     }
   }),
-  person_name: Ember.computed('person.{name}', function(){
+  person_name: Ember.computed('person.{name}', 'first_name', 'username', function(){
     if (this.get('person.name')){
       return this.get('person.name');
     } else if (this.get('first_name')){

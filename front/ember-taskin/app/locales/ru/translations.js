@@ -4,6 +4,7 @@ export default {
   "Сontact the administrator of the Website": "Обратитесь к администратору сайта",
   "Projects":"Проекты",
   "Tasks":"Задачи",
+  "List projects":"Список проектов",
   "Task statuses":"Статусы задач",
   "Members":"Участники",
   "Current project":  "Текущий проект",
