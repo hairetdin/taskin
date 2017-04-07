@@ -2,5 +2,5 @@
 *.swp
 db.sqlite3
 */migrations
-static
+# static
 frontend/templates

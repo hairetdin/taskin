@@ -2,10 +2,10 @@
 
 {{#if session.isAuthenticated}}
   <button {{action 'invalidateSession'}} class="btn btn-default">
-    Выход
+    {{t "Logout"}}
   </button>
 {{else}}
   <button {{action 'authenticate'}} class="btn btn-default">
-    Вход
+    {{t "Login"}}
   </button>
 {{/if}}

@@ -99,7 +99,11 @@ export default {
   "Your changes haven't saved yet. Would you like to leave this form?":
   "Your changes haven't saved yet. Would you like to leave this form?",
 
-  //buttons translation
+  //labels & buttons translation
+  "Password":"Password",
+  "User":"User",
+  "Logout":"Logout",
+  "Login":"Login",
   "Delete":"Delete",
   "Save":"Save",
   "Edit":"Edit",

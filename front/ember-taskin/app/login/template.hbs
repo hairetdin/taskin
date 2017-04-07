@@ -1,11 +1,14 @@
 {{!-- app/login/template.hbs --}}
+<h1>{{t "Login"}}</h1>
+
 <form {{action 'authenticate' on='submit'}}>
-  <label for="identification">User</label>
-  {{input id='identification' placeholder='Enter Login' value=identification}}
-  <label for="password">Password</label>
-  {{input id='password' placeholder='Enter Password' type='password' value=password}}
-  <button type="submit">Login</button>
-  {{#if errorMessage}}
-    <p>{{errorMessage}}</p>
-  {{/if}}
+ <div class="form-group">
+   <label for="identification">{{t "User"}}</label>
+   {{input id='identification' class="form-control" placeholder='Enter Login' value=identification}}
+ </div>
+ <div class="form-group">
+   <label for="password">{{t "Password"}}</label>
+   {{input id='password' class="form-control" placeholder='Enter Password' type='password' value=password}}
+ </div>
+ <button type="submit" class="btn btn-default">{{t "Login"}}</button>
 </form>

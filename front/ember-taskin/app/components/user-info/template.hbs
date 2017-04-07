@@ -3,15 +3,17 @@
     <span style="color:black;">
       {{if session.data.authenticated.user.first_name session.data.authenticated.user.first_name session.data.authenticated.user.username}}
       <button {{action 'invalidateSession'}} class="btn btn-default">
-        Выход
+        {{t "Logout"}}
       </button>
     </span>
 
   {{else}}
     <span style="color:white;margin-right:10px;">
-      Вы не авторизованы.
+      You aren't authenticated.
     </span>
-    {{#link-to 'taskin.login' class="btn btn-default btn-login" role="button"}}Вход{{/link-to}}
+    {{#link-to 'taskin.login' class="btn btn-default btn-login" role="button"}}
+      {{t "Login"}}
+    {{/link-to}}
   {{/if}}
 </div>
 

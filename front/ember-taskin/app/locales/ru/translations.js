@@ -99,7 +99,11 @@ export default {
   "Your changes haven't saved yet. Would you like to leave this form?":
   "Ваши изменения не сохранены. Хотите перейти на другую страницу?",
 
-  //buttons translation
+  //labels & buttons translation
+  "Password":"Пароль",
+  "User":"Пользователь",
+  "Logout":"Выход",
+  "Login":"Вход",
   "Delete":"Удалить",
   "Save":"Сохранить",
   "Edit":"Редактировать",
