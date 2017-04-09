@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'ember-taskin',
     environment: environment,
-    rootURL: '/',
+    rootURL: '/taskin/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {

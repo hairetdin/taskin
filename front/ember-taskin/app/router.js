@@ -72,7 +72,7 @@ Router.map(function() {
       this.route('new');
       this.route('show');
     });
-    
+
     this.route('tasks', function() {
       this.route('edit');
       this.route('new');
@@ -81,6 +81,10 @@ Router.map(function() {
     */
   });
   this.route('login');
+
+  this.route('not-found', {
+    path: '/*path'
+  });
 });
 
 export default Router;
