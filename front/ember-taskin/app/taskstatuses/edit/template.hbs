@@ -1,0 +1,15 @@
+<h3>{{t "Task status edit"}}</h3>
+
+<form>
+  <div class="form-group">
+    <label>{{t "Name"}}:</label>
+    {{input type="text" class="form-control" value=model.name placeholder=(t "Enter name")}}
+  </div>
+  <div class="form-group">
+    <label>{{t "Order"}}:</label>
+    {{input type="text" class="form-control" value=model.order placeholder=(t "Enter index number")}}
+  </div>
+  <button type="submit" class="btn btn-success" {{action 'saveTaskstatus' model}}>
+    {{t "Save changes"}}
+  </button>
+</form>

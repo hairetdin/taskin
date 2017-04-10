@@ -1,0 +1,16 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>{{t "New comment"}}</h3>
+    <button class="btn btn-success" type="submit" {{action 'saveComment' model}}>{{t "Save"}}</button>
+  </div>
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+
+        <div class="col-sm-12">
+          {{textarea class="form-control" rows="5" value=model.text placeholder=(t "Comment text")}}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

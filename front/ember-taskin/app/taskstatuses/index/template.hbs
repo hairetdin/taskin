@@ -1,0 +1,27 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>{{t "Order"}}</th>
+      <th>{{t "Name"}}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |taskstatus|}}
+    <tr>
+      <td>{{taskstatus.order}}</td>
+      <td>{{taskstatus.name}}</td>
+      <td>
+        {{#link-to 'taskstatuses.edit' taskstatus tagName='button' class="btn btn-info"}}
+          {{t "Edit"}}
+        {{/link-to}}
+      </td>
+      <td>
+        <button {{action 'deleteStatus' taskstatus.id}} class="btn btn-default">
+          {{t "Delete"}}
+        </button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

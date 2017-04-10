@@ -1,0 +1,30 @@
+<h1>Project "{{model.name}}" detail</h1>
+
+<p>Name: {{model.name}}</p>
+<p>Created: {{model.date_created}}</p>
+<p>About: {{model.about}}</p>
+<p>Creator: {{model.creator.username}}</p>
+<p>Members:</p>
+  <ul>
+  {{#each model.members as |member|}}
+    <li>
+      {{member.id}}
+      {{member.user.username}}
+    </li>
+  {{/each}}
+</ul>
+
+<p>Task statuses:</p>
+  <ul>
+  {{#each model.task_statuses as |task_status|}}
+    <li>
+      {{task_status.name}}
+    </li>
+  {{/each}}
+  </ul>
+
+<p>
+  {{#link-to 'tasks' model}}
+    {{t "Tasks"}}
+  {{/link-to}}
+</p>

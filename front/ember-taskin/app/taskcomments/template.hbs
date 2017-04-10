@@ -1,0 +1,16 @@
+
+{{#link-to "taskcomments.new" class="btn btn-info"}}{{t "Add new comment"}}{{/link-to}}
+{{outlet}}
+<ul>
+  {{#each model as |comment|}}
+    <li>
+      {{moment-format comment.date_created 'DD.MM.YYYY HH:mm'}}
+      <b>{{comment.creator.person_name}}:</b>
+      <div class="form-group">
+        <div>
+          {{textarea class="form-control" value=comment.text readonly="readonly"}}
+        </div>
+      </div>
+    </li>
+  {{/each}}
+</ul>

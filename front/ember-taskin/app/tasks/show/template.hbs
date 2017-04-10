@@ -1,0 +1,134 @@
+
+<div class="panel {{if model.date_closed 'panel-warning' 'panel-default'}}">
+  <div class="panel-heading">
+
+    {{#if model.date_closed}}
+      <p>{{t "This task closed"}}</p>
+    {{/if}}
+    <h3>{{t "Task"}} {{model.id}} {{t "detail"}}</h3>
+
+    <p><a href="#comments">{{t "Comments"}}</a> ({{model.task_comments.length}})</p>
+
+    <p><a href="#files">{{t "Files"}}</a> ({{model.taskfiles.length}}) </p>
+
+    {{#link-to 'tasks'}}
+      <button class="btn btn-success">
+        Ok
+      </button>
+    {{/link-to}}
+    {{#link-to 'tasks.edit' model.project.id model.id tagName='button' class="btn btn-success"}}
+      {{t "Edit"}}
+    {{/link-to}}
+    {{#link-to 'tasks'}}
+      <button class="btn btn-success">
+        {{t "Cancel"}}
+      </button>
+    {{/link-to}}
+  </div>
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        {{#if acceptForExecute}}
+          <button {{action "acceptExecute" currentExecutor}} class="btn btn-info">
+            {{t "Accept for execution"}}
+          </button>
+        {{/if}}
+        {{#if taskCompleted}}
+          <button {{action 'taskCompleted' currentExecutor}} class="btn btn-info">
+            {{t "Task completed"}}
+          </button>
+        {{/if}}
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Status"}}:</label>
+        <div class="col-sm-10">
+          <select class="form-control" onchange={{action "selectTaskstatus" value="target.value"}}>
+            <option value="{{model.status.id}}">{{model.status.name}}</option>
+            {{#each model.project.task_statuses as |taskstatus|}}
+              <option value={{taskstatus.id}}>{{taskstatus.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Customer"}}:</label>
+        <div class="col-sm-8">
+          <input class="form-control" type="text" value={{model.customer.name}} readonly>
+        </div>
+        <div class="col-sm-2">
+          {{#if model.customer.id}}
+            {{#link-to 'company.people.show' model.customer.id target="_blank"}}
+                {{t "Detail"}}
+            {{/link-to}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Subject"}}:</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" value={{model.subject}} readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "About"}}:</label>
+        <div class="col-sm-10">
+          {{textarea class="form-control" rows="5" value=model.about readonly="readonly"}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Reason"}}:</label>
+        <div class="col-sm-10">
+          {{textarea class="form-control" rows="2" value=model.reason readonly="readonly"}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Created"}}:</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" value={{moment-format model.date_created 'DD.MM.YYYY, H:mm'}} readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Creator"}}:</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" value={{model.creator.person_name}} readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Execute to date"}}:</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" value={{moment-format model.date_exec_max 'lll'}} readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Date closed"}}:</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" value={{moment-format model.date_closed 'DD.MM.YYYY, H:mm'}} readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Executors"}}:</label>
+        <div class="col-sm-10">
+          {{#each model.taskexecutors as |taskexecutor|}}
+            <input class="form-control" type="text" value={{taskexecutor.executor.user.person_name}} readonly>
+            {{t "Accepted for execution"}}: {{moment-format taskexecutor.date_accepted 'DD.MM.YYYY, H:mm'}}
+            <br>
+            {{t "Task completed"}}: {{moment-format taskexecutor.date_closed 'DD.MM.YYYY, H:mm'}}
+            <p></p>
+          {{/each}}
+        </div>
+      </div>
+    </form>
+  </div>
+
+    <a name="files"></a>
+    <label>
+      {{#link-to "taskfiles"  }}<a href="#files">{{t "Files"}}</a> ({{model.taskfiles.length}}) {{/link-to}}
+    </label>
+
+    <a name="comments"></a>
+    <label>
+      {{#link-to "taskcomments"  }}<a href="#comments">{{t "Comments"}}</a> ({{model.task_comments.length}}) {{/link-to}}
+    </label>
+
+  {{outlet}}
+</div>

@@ -1,0 +1,23 @@
+<h4 class="text-left">{{t "Tasks"}}</h4>
+<div class="page-header"></div>
+<div class="row">
+
+    <div class="col-sm-3 col-md-2 sidebar">
+      {{!-- left menu --}}
+  		<ul class="nav nav-sidebar">
+        {{#link-to 'tasks.new' tagName="li"}}<a href>{{t "Create new task"}}</a>{{/link-to}}
+        {{#link-to 'tasks' (query-params page=1 executor=all closed=none) tagName="li"}}<a href>{{t "All tasks"}}</a>{{/link-to}}
+        {{#link-to 'tasks' (query-params closed=0) tagName="li"}}<a href>{{t "The closed tasks hide"}}</a>{{/link-to}}
+
+        <p>{{t "Filter by executor"}}:</p>
+        {{#link-to 'tasks' (query-params executor=0) tagName="li"}}<a href>{{t "Executor is empty"}}</a>{{/link-to}}
+        {{#each model.members as |executor|}}
+          {{#link-to 'tasks' (query-params page=1 executor=executor.id) tagName="li"}}<a href>{{executor.full_name}}</a>{{/link-to}}
+        {{/each}}
+      </ul>
+  	</div>
+    <div class="col-sm-9 main">
+      {{!-- right content --}}
+      {{outlet}}
+    </div>
+</div>

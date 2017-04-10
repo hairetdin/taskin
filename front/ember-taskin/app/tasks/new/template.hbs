@@ -1,0 +1,114 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>{{t "New task"}}</h3>
+    <button class="btn btn-success" type="submit" {{action 'saveTask' model}}>{{t "Save"}}</button>
+    <button class="btn btn-success" type="submit" {{action 'cancel'}}>{{t "Cancel"}}</button>
+  </div>
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Project"}}:</label>
+        <div class="col-sm-10">
+          {{input type="text" class="form-control" value=model.project.name readonly='readonly'}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Status"}}:</label>
+        <div class="col-sm-10">
+          <select class="form-control" onchange={{action "selectTaskstatus" value="target.value"}}>
+            {{#each model.project.task_statuses as |taskstatus|}}
+              <option value={{taskstatus.id}}>{{taskstatus.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      <div class="form-group {{if model.errors.subject 'has-error'}}">
+        <label class="col-sm-2 control-label">{{t "Subject"}}:</label>
+        <div class="col-sm-10">
+          {{input type="text" class="form-control" value=model.subject placeholder=(t "Enter subject")}}
+          {{#each model.errors.subject as |error|}}
+            <p class="text-danger">{{error.message}}</p>
+          {{/each}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Reason"}}:</label>
+        <div class="col-sm-10">
+          {{textarea class="form-control" rows="2" value=model.reason placeholder=(t "Why do you create this task?")}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "About"}}:</label>
+        <div class="col-sm-10">
+          {{textarea class="form-control" rows="5" value=model.about placeholder=(t "About this task")}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Customer"}}:</label>
+        <div class="col-sm-8">
+          <div class="btn-group btn-block">
+            <span class="fa fa-search" id="btn-search" data-toggle="dropdown"></span>
+            {{input type="text"
+              value=userValue
+              focus-in='focusedCustomer'
+              key-up=(action 'handleFilterCustomer')
+              autocomplete="off"
+              class="form-control"
+              placeholder="Enter customer name"
+            }}
+            <ul class="dropdown-menu btn-block">
+              {{#if newPerson}}
+                <li class="dropdown-header">Name not found in base.</li>
+                <li class="dropdown-header">Name will add after save.</li>
+                <li class="dropdown-header"></li>
+              {{/if}}
+              {{#each customers as |customer|}}
+                <li class="list-group-item" onclick={{action "customerClick" customer.name customer}}>
+                  <a>{{customer.name}}</a>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          {{#if model.customer.id}}
+            {{#link-to 'company.people.show' model.customer.id target="_blank"}}
+              {{t "Detail"}}
+            {{/link-to}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Execute to date"}}:</label>
+        <div class="col-sm-10">
+          {{date-time-picker model.date_exec_max action=(action (mut model.date_exec_max)) class="form-control"}}
+          {{#if model.date_exec_max}}
+            ({{t "date in russian format"}}: {{moment-format model.date_exec_max 'DD.MM.YYYY, H:mm'}})
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">{{t "Executors"}}:</label>
+        <div class="col-sm-10">
+          {{#each taskexecutors as |taskexecutor|}}
+              <select class="form-control" onchange={{action (action "selectExecutor" taskexecutor) value="target.value"}}>
+                <option value="{{taskexecutor.executor.id}}">{{taskexecutor.executor.user.full_name}}</option>
+                {{#each model.project.projectmember_set as |member|}}
+                  <option value={{member.id}}>{{member.user.full_name}}</option>
+                {{/each}}
+              </select>
+              {{t "Accept for execution"}}: {{input type="checkbox" checked=executor.date_accepted}}
+              <button class="btn btn-danger pull-right" {{action "removeExecutor" taskexecutor}}>{{t "Remove executor"}}</button>
+              <br>
+              {{t "Task completed"}}: {{input type="checkbox" checked=executor.date_closed}}
+              <p></p>
+          {{/each}}
+          <button class="btn btn-info pull-right" {{action 'addExecutor'}}>{{t "Add executor"}}</button>
+        </div>
+      </div>
+      <button class="btn btn-success" type="submit" {{action 'saveTask' model}}>{{t "Save"}}</button>
+      <button class="btn btn-success" type="submit" {{action 'cancel'}}>{{t "Cancel"}}</button>
+    </form>
+  </div>
+</div>

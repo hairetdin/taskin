@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <div class="navbar-header">
-      {{#link-to 'taskin' (query-params page=1)}}<a class="navbar-brand" href>Taskin</a>{{/link-to}}
+      {{#link-to 'application'}}<a class="navbar-brand" href>Taskin</a>{{/link-to}}
     </div>
     <ul class="nav navbar-nav">
       <li class="dropdown">
@@ -10,10 +10,10 @@
           {{t "Projects"}} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          {{#link-to 'taskin.projects' tagName="li"}}
+          {{#link-to 'projects' tagName="li"}}
             <a href>{{t "All projects"}}</a>
           {{/link-to}}
-          {{#link-to 'taskin.projects.new' tagName="li"}}
+          {{#link-to 'projects.new' tagName="li"}}
             <a href>{{t "Create new project"}}</a>
           {{/link-to}}
           {{!-- <li><a href="#">Page 1-1</a></li> --}}
@@ -38,7 +38,7 @@
     </form>
     {{#if session.data.project.name}}
       <ul class="nav navbar-nav">
-        {{#link-to 'taskin.tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
+        {{#link-to 'tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
       </ul>
     {{/if}}
     {{user-info}}

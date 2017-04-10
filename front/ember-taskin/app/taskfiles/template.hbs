@@ -1,0 +1,12 @@
+<h4>{{t "Files"}}</h4>
+
+{{outlet}}
+<ul>
+  {{#each model as |item|}}
+    <li>
+      <a href="{{item.attachment}}">{{item.name}}</a> -
+      {{t "Uploaded"}} {{item.creator.person_name}},
+      {{moment-format item.upload_date 'DD.MM.YYYY HH:mm'}}
+    </li>
+  {{/each}}
+</ul>

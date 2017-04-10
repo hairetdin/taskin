@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>{{t "Adding a new file"}}</h3>
+  </div>
+  <div class="panel-body">
+    <p>{{errorMessage}}</p>
+    <div class="input-group">
+
+      <input type='file' id='file-field' class="form-control" name="file"/>
+    </div>
+    <button class="btn btn-success" type="submit" {{action 'saveFile' model}}>{{t "Save"}}</button>
+  </div>
+</div>

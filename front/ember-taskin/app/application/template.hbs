@@ -1,3 +1,20 @@
-{{#link-to 'taskin' (query-params page=1)}}<a class="navbar-brand" href>Taskin</a>{{/link-to}}
+{{#link-to 'projects' (query-params page=1)}}<a class="navbar-brand" href>Taskin projects</a>{{/link-to}}
 {{user-info}}
 {{outlet}}
+
+<div class="container">
+  {{partial 'navbar'}}
+
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      {{!-- left menu --}}
+  		<ul class="nav nav-sidebar">
+        {{!-- <li></li> --}}
+      </ul>
+  	</div>
+    <div class="col-sm-9 main">
+      {{!-- right content --}}
+    </div>
+    {{outlet}}
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="col-sm-3 col-md-2 sidebar">
+  {{!-- left menu --}}
+  <ul class="nav nav-sidebar">
+
+    {{!--
+    <li></li>
+    --}}
+  </ul>
+</div>
+<div class="col-sm-9 main">
+  {{!-- right content --}}
+
+  <h3>{{t "Detail"}}</h3>
+
+  <p>Name: {{model.name}}</p>
+  <p>Created: {{model.date_created}}</p>
+  <p>About: {{model.about}}</p>
+  <p>Creator: {{model.creator.username}}</p>
+  <p>Members:</p>
+    {{#link-to 'members' model }}{{t "Edit"}}{{/link-to}}
+    <ul>
+    {{#each model.members as |member|}}
+      <li>
+        {{member.person_name}}
+      </li>
+    {{/each}}
+  </ul>
+
+  <p>Task statuses:</p>
+    {{#link-to 'taskstatuses' model}}
+      <a href>{{t "Edit"}}</a>
+    {{/link-to}}
+    <ul>
+    {{#each model.task_statuses as |task_status|}}
+      <li>
+        {{task_status.name}}
+      </li>
+    {{/each}}
+    </ul>
+
+  <p>
+    {{#link-to 'tasks' model}}
+      {{t "Tasks"}}
+    {{/link-to}}
+  </p>
+</div>

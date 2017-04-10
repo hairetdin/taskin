@@ -1,0 +1,23 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>{{t "Member"}}</th>
+      <th>{{t "Right"}}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |member|}}
+      <tr>
+        <td>
+          {{member.user.full_name}}
+        </td>
+        <td>
+          {{member.right}}
+        </td>
+        <td>{{#link-to 'members.edit' member class="btn btn-default"}}{{t "Edit"}}{{/link-to}}</td>
+        <td><button {{action 'deleteMember' member.id}} class="btn btn-default">{{t "Delete"}}</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

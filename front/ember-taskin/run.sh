@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ember serve --output-path ../../back/taskin/static/
+ember serve --output-path ../../back/taskin/static/taskin/
