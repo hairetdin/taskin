@@ -129,6 +129,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+MEDIA_ROOT = '/tmp/taskin/media/'
+MEDIA_URL = '/media/'
+
+
 CORS_ORIGIN_ALLOW_ALL = DEBUG
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
