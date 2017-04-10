@@ -1,0 +1,63 @@
+{{moment-format currentTime 'DD.MM.YYYY HH:mm:ss'}}
+
+{{#link-to 'index' (query-params page=1)}}
+  <a href>
+    <h3>{{t "(user.person_name)'s tasks to execution" username=user.person_name}}</h3>
+  </a>
+{{/link-to}}
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>{{t "Id"}}</th>
+        <th>{{t "Created date"}}</th>
+        <th>{{t "Subject"}}</th>
+        <th>{{t "Status"}}</th>
+        <th>{{t "Customer"}}</th>
+        <th>{{t "Deadline for execution"}}</th>
+        <th>{{t "Executor"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each sortedTasks as |task|}}
+      <tr class="{{if task.isOverdue 'danger'}}">
+          <td>
+            {{#link-to 'taskcomments' task.project.id task.id tagName='button' class="btn btn-info"}}{{task.id}}{{/link-to}}
+          </td>
+          <td>
+            {{moment-format task.date_created 'DD.MM.YYYY HH:mm'}}
+          </td>
+          <td>{{task.subject}}</td>
+          <td>{{task.status.name}}</td>
+          <td>{{task.customer.person.name}}</td>
+          <td>{{moment-format task.date_exec_max 'DD.MM.YYYY HH:mm'}}</td>
+          <td>
+            <ul>
+              {{#each task.executors as |executor|}}
+                <li>
+                  {{executor.user.full_name}}
+                </li>
+              {{/each}}
+            </ul>
+          </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<ul class="pager">
+<p>{{t "Current page"}}: {{page}}</p>
+  <li>
+    {{#link-to 'index' (query-params page=model.queryTasks.meta.previous) disabled=(if model.queryTasks.meta.previous false true)}}
+      <a href>{{t "Previous"}}</a>
+    {{/link-to}}
+  </li>
+  <li>
+    {{#link-to 'index' (query-params page=model.queryTasks.meta.next) disabled=(if model.queryTasks.meta.next false true)}}
+      <a href>{{t "Next"}}</a>
+    {{/link-to}}
+  </li>
+</ul>
+<p>{{t "Total task"}}: {{model.queryTasks.meta.count}}</p>
