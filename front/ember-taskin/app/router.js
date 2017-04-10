@@ -7,7 +7,6 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-
   this.route('login');
   this.route('projects', function() {
     this.route('new');
@@ -51,7 +50,19 @@ Router.map(function() {
       });
     });
   });
-  
+
+  this.route('login');
+
+  this.route('not-found', {
+    path: '/*path'
+  });
+
+  this.route('people', function() {
+    this.route('show', {
+      path: ':person_id'
+    });
+  });
+
   /*
   this.route('taskin', function() {
 
@@ -85,11 +96,7 @@ Router.map(function() {
 
   });
   */
-  this.route('login');
 
-  this.route('not-found', {
-    path: '/*path'
-  });
 
   /*
   this.route('projects', function() {
@@ -120,6 +127,7 @@ Router.map(function() {
     this.route('show');
   });
   */
+
 });
 
 export default Router;

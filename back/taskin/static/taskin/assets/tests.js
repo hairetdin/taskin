@@ -426,6 +426,15 @@ define('ember-taskin/tests/people/route.lint-test', ['exports'], function (expor
     assert.ok(true, 'people/route.js should pass ESLint.\n');
   });
 });
+define('ember-taskin/tests/people/show/route.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('ESLint - people/show/route.js');
+  QUnit.test('should pass ESLint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'people/show/route.js should pass ESLint.\n');
+  });
+});
 define('ember-taskin/tests/person/model.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1482,6 +1491,27 @@ define('ember-taskin/tests/unit/people/route-test.lint-test', ['exports'], funct
   QUnit.test('should pass ESLint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/people/route-test.js should pass ESLint.\n');
+  });
+});
+define('ember-taskin/tests/unit/people/show/route-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:people/show', 'Unit | Route | people/show', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('ember-taskin/tests/unit/people/show/route-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('ESLint - unit/people/show/route-test.js');
+  QUnit.test('should pass ESLint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/people/show/route-test.js should pass ESLint.\n');
   });
 });
 define('ember-taskin/tests/unit/person/model-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
