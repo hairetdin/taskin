@@ -33,23 +33,26 @@ export default Base.extend({
         remoteResponse = this.requestBackendSession();
       } else {
         //remoteResponse = this.requestBackendSession();
+
         const data = { username: identification, password: password };
         let host = ENV.APP.API_HOST;
         let login_url = host + '/taskin/api/auth/login/';
         //let login_url = this.serverAuthEndpoint + 'login/';
         remoteResponse = this.makeRequest(login_url, data);
       }
+
       remoteResponse
       .then((response) => {
         Ember.run(() => {
           //console.log('django authenticate response:',response);
           resolve(response);
         });
-      }, (xhr /*, status, error */) => {
+      }, (xhr /*, status, error*/ ) => {
         Ember.run(() => {
           reject(xhr.responseJSON || xhr.responseText);
         });
       });
+
     });
   },
 

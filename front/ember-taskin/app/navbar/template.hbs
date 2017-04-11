@@ -4,42 +4,47 @@
     <div class="navbar-header">
       {{#link-to 'application'}}<a class="navbar-brand" href>Taskin</a>{{/link-to}}
     </div>
-    <ul class="nav navbar-nav">
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          {{t "Projects"}} <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          {{#link-to 'projects' tagName="li"}}
-            <a href>{{t "All projects"}}</a>
-          {{/link-to}}
-          {{#link-to 'projects.new' tagName="li"}}
-            <a href>{{t "Create new project"}}</a>
-          {{/link-to}}
-          {{!-- <li><a href="#">Page 1-1</a></li> --}}
-        </ul>
-      </li>
-
-    </ul>
-
-    <form class="navbar-form navbar-left">
-      <div class="form-group">
-        <select class="form-control" onchange={{action "selectProject" value="target.value"}}>
-          {{#if session.data.project.name}}
-            <option value={{session.data.project.id}}>{{session.data.project.name}}</option>
-          {{else}}
-            <option value="">{{t "Current project"}}</option>
-          {{/if}}
-          {{#each model as |project|}}
-            <option value={{project.id}}>{{project.name}}</option>
-          {{/each}}
-        </select>
-      </div>
-    </form>
-    {{#if session.data.project.name}}
+    {{#if session.isAuthenticated}}
       <ul class="nav navbar-nav">
-        {{#link-to 'tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            {{t "Projects"}} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {{#link-to 'projects' tagName="li"}}
+              <a href>{{t "All projects"}}</a>
+            {{/link-to}}
+            {{#link-to 'projects.new' tagName="li"}}
+              <a href>{{t "Create new project"}}</a>
+            {{/link-to}}
+            {{!-- <li><a href="#">Page 1-1</a></li> --}}
+          </ul>
+        </li>
+
       </ul>
+
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+
+          <select class="form-control" onchange={{action "selectProject" value="target.value"}}>
+            {{#if session.data.project.name}}
+              <option value={{session.data.project.id}}>{{session.data.project.name}}</option>
+            {{else}}
+              <option value="">{{t "Current project"}}</option>
+            {{/if}}
+
+            {{#each model as |project|}}
+              <option value={{project.id}}>{{project.name}}</option>
+            {{/each}}
+
+          </select>
+        </div>
+      </form>
+      {{#if session.data.project.name}}
+        <ul class="nav navbar-nav">
+          {{#link-to 'tasks' session.data.project.id tagName="li"}}<a href>{{t "Tasks"}}</a>{{/link-to}}
+        </ul>
+      {{/if}}
     {{/if}}
     {{user-info}}
   </div>

@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-
+  session: Ember.inject.service('session'),
+  
   currentTime: null,
 
   //task sorting by date_created

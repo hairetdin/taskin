@@ -1,26 +1,32 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import moment from 'moment';
+//import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Poolster from '../utils/poolster';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/ {
   session: Ember.inject.service('session'),
   poolster: Poolster.create(),
 
   model(params) {
-    this.store.unloadAll('task');
-    let current_user = this.get('session.data.authenticated.user.id');
-    params.executor = current_user;
-    //closed tasks will not show
-    params.closed = 0;
-    //return this.get('store').query('task', {executors__user: current_user});
+    if (this.get('session.isAuthenticated')){
+      this.store.unloadAll('task');
+      let current_user = this.get('session.data.authenticated.user.id');
+      params.executor = current_user;
+      //closed tasks will not show
+      params.closed = 0;
+      //return this.get('store').query('task', {executors__user: current_user});
 
-    return RSVP.hash({
-      params: params,
-      //queryTasks: this.get('store').query('task', {executor: current_user, closed: 0}),
-      queryTasks: this.get('store').query('task', params),
-      tasks: this.store.peekAll('task'),
-    });
+      return RSVP.hash({
+        params: params,
+        //queryTasks: this.get('store').query('task', {executor: current_user, closed: 0}),
+        queryTasks: this.get('store').query('task', params),
+        tasks: this.store.peekAll('task'),
+      });
+    } else {
+      return {};
+    }
+
   },
 
   queryParams: {
@@ -65,20 +71,22 @@ export default Ember.Route.extend({
     // all your data is in model hash
     controller.set("model", model);
     //controller.set("session", this.session);
-    let current_user = this.get('session.data.authenticated.user.id');
-    controller.set("user", this.store.findRecord('user',current_user));
+    if (this.get('session.isAuthenticated')){
+      let current_user = this.get('session.data.authenticated.user.id');
+      controller.set("user", this.store.findRecord('user',current_user));
 
-    if (model.params.page === 1){
-      //this.startWatchingTask(current_project, model.params);
-      let store = this.get('store');
-      this.set('poolster.onPoll', function(){
-        //store.query('task', {project: current_project});
-        store.query('task', model.params);
-      });
+      if (model.params.page === 1){
+        //this.startWatchingTask(current_project, model.params);
+        let store = this.get('store');
+        this.set('poolster.onPoll', function(){
+          //store.query('task', {project: current_project});
+          store.query('task', model.params);
+        });
 
-      //console.log(this.get('poolster'));
-      this.get('poolster').start();
-      //controller.set('poolster', this.get('poolster'));
+        //console.log(this.get('poolster'));
+        this.get('poolster').start();
+        //controller.set('poolster', this.get('poolster'));
+      }
     }
     //controller.set("newReview", model.newReview);
   },
