@@ -18,6 +18,7 @@ export default {
   "About this project":"Описание этого проекта",
   "Are you sure?":"Вы уверены?",
   "Total projects":"Всего проектов",
+  "Total tasks":"Total tasks",
 
   //tasboard.task translation
   "Create new task":"Создать новую задачу",
