@@ -55,7 +55,7 @@ export default {
   "edit":"редактирование",
   "The (person.name)'s tasks in '(session.data.project.name)'":`Задачи для {{personname}} в "{{projectname}}"`,
   "The tasks in '(session.data.project.name)' without executor": `Задачи без исполнителя в "{{projectname}}"`,
-  "(user.person_name)'s tasks to execution": `Задачи к исполнению для {{username}}`,
+  "(user.person_name)'s tasks for execution": `Задачи к исполнению для {{username}}`,
   "Add new file": "Добавить файл",
   "Files": "Файлы",
   "Adding a new file": "Добавление нового файла",

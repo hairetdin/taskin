@@ -55,7 +55,7 @@ export default {
   "edit":"edit",
   "The (person.name)'s tasks in '(session.data.project.name)'":`The {{personname}}'s' tasks in "{{projectname}}"`,
   "The tasks in '(session.data.project.name)' without executor": `The tasks in "{{projectname}}" without executor`,
-  "(user.person_name)'s tasks to execution": `{{username}} 's tasks to execution`,
+  "(user.person_name)'s tasks for execution": `{{username}} 's tasks for execution`,
   "Add new file": "Add new file",
   "Files": "Files",
   "Adding a new file": "Adding a new file",

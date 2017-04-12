@@ -41,8 +41,15 @@ define('ember-taskin/application/adapter', ['exports', 'ember-taskin/adapters/dr
 define('ember-taskin/application/controller', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller.extend({
     session: _ember['default'].inject.service('session'),
+
+    sessionAuthenticated: _ember['default'].observer('session.isAuthenticated', function () {
+      //reload taskin application because model load/unload if session isAuthenticated
+      window.location.href = '/taskin/';
+    }),
+
     actions: {
       selectProject: function selectProject(project_id) {
+        //selected project set to session and show tasks for selected project
         var project = this.store.peekRecord('project', project_id);
         this.get('session').set('data.project', { 'id': project.id, 'name': project.get('name') });
         //this.transitionToRoute('tasks', {queryParams: {project: project.id}});
@@ -56,36 +63,32 @@ define('ember-taskin/application/route', ['exports', 'ember', 'ember-simple-auth
 
   exports['default'] = _ember['default'].Route.extend(_emberSimpleAuthMixinsApplicationRouteMixin['default'], {
     session: _ember['default'].inject.service('session'),
-
-    init: function init() {
-      var _this = this;
-
-      //console.log('aplication init work');
+    /* init work befor session.isAuthenticated, so beforeModel used
+    init(){
       //this.get('session').authenticate('authenticator:django');
-      if (!this.get('session.isAuthenticated')) {
-        this.get('session').authenticate('authenticator:django').then(function () {
+      if (!(this.get('session.isAuthenticated'))){
+        //console.log('aplication init authentication work', this.get('session.data'));
+        //this.get('session').authenticate('authenticator:django')
+        .then(()=>{
           //console.log('aplication init auth success');
-          _this.refresh();
-        }, function () /*reject*/{
+          //this.refresh();
+        }, (reject) => {
           //console.log('reject');
           //this.transitionTo('login');
           //window.location.replace("/taskin/api-auth/login/?next=/taskin/");
-        });
+        })
       }
     },
+    */
 
     titleToken: 'Projects',
-    /*
-    beforeModel: function(){
-      this.get('session').authenticate('authenticator:django')
-      .then(()=>{
-       }, (reject) => {
-        //console.log('reject');
-        this.refresh();
-        //window.location.replace("/taskin/api-auth/login/?next=/taskin/");
-      })
+
+    beforeModel: function beforeModel() {
+      if (!this.get('session.isAuthenticated')) {
+        //try to authenticate with backend's session, if session is not authenticated
+        this.get('session').authenticate('authenticator:django');
+      }
     },
-    */
 
     model: function model() {
       if (this.get('session.isAuthenticated')) {
@@ -96,16 +99,14 @@ define('ember-taskin/application/route', ['exports', 'ember', 'ember-simple-auth
     },
 
     setupController: function setupController(controller, model) {
-      var _this2 = this;
+      var _this = this;
 
-      console.log(this.get('session.isAuthenticated'));
       if (this.get('session.isAuthenticated')) {
         (function () {
           controller.set("model", model);
-          var sessionProjectName = _this2.get('session.data.project.name');
-          //console.log(this.get('session.data.project.id'));
-          var session = _this2.get('session');
-          _this2.store.query('project', { 'name': sessionProjectName }).then(function (currentProject) {
+          var sessionProjectName = _this.get('session.data.project.name');
+          var session = _this.get('session');
+          _this.store.query('project', { 'name': sessionProjectName }).then(function (currentProject) {
             if (currentProject.get('length') == 0) {
               session.set('data.project', {});
             }
@@ -625,7 +626,7 @@ define('ember-taskin/index/route', ['exports', 'ember', 'rsvp', 'moment', 'ember
 
 //import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 define("ember-taskin/index/template", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "+AMErmd9", "block": "{\"statements\":[[\"append\",[\"helper\",[\"moment-format\"],[[\"get\",[\"currentTime\"]],\"DD.MM.YYYY HH:mm:ss\"],null],false],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"session\",\"isAuthenticated\"]]],null,8,1]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"append\",[\"helper\",[\"t\"],[\"Login\"],null],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"  \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"It's need authentication to create tasks\"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"login\"],[[\"class\",\"role\"],[\"btn btn-default btn-login\",\"button\"]],0]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"\"],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Next\"],null],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"\"],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Previous\"],null],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                  \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"append\",[\"unknown\",[\"executor\",\"user\",\"full_name\"]],false],[\"text\",\"\\n                  \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"executor\"]},{\"statements\":[[\"append\",[\"unknown\",[\"task\",\"id\"]],false]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"tr\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[[\"helper\",[\"if\"],[[\"get\",[\"task\",\"isOverdue\"]],\"danger\"],null]]]],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"text\",\"\\n              \"],[\"block\",[\"link-to\"],[\"taskcomments\",[\"get\",[\"task\",\"project\",\"id\"]],[\"get\",[\"task\",\"id\"]]],[[\"tagName\",\"class\"],[\"button\",\"btn btn-info\"]],5],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"text\",\"\\n              \"],[\"append\",[\"helper\",[\"moment-format\"],[[\"get\",[\"task\",\"date_created\"]],\"DD.MM.YYYY HH:mm\"],null],false],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"task\",\"subject\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"task\",\"status\",\"name\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"task\",\"customer\",\"person\",\"name\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"moment-format\"],[[\"get\",[\"task\",\"date_exec_max\"]],\"DD.MM.YYYY HH:mm\"],null],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"ul\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"task\",\"executors\"]]],null,4],[\"text\",\"              \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"task\"]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"h3\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"(user.person_name)'s tasks to execution\"],[[\"username\"],[[\"get\",[\"user\",\"person_name\"]]]]],false],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"link-to\"],[\"index\",[\"helper\",[\"query-params\"],null,[[\"page\"],[1]]]],null,7],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"table-responsive\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"table\",[]],[\"static-attr\",\"class\",\"table table-hover\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"thead\",[]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"tr\",[]],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Id\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Created date\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Subject\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Status\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Customer\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Deadline for execution\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Executor\"],null],false],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"tbody\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"sortedTasks\"]]],null,6],[\"text\",\"      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"pager\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Current page\"],null],false],[\"text\",\": \"],[\"append\",[\"unknown\",[\"page\"]],false],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"index\",[\"helper\",[\"query-params\"],null,[[\"page\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"previous\"]]]]]],[[\"disabled\"],[[\"helper\",[\"if\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"previous\"]],false,true],null]]],3],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"index\",[\"helper\",[\"query-params\"],null,[[\"page\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"next\"]]]]]],[[\"disabled\"],[[\"helper\",[\"if\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"next\"]],false,true],null]]],2],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Total task\"],null],false],[\"text\",\": \"],[\"append\",[\"unknown\",[\"model\",\"queryTasks\",\"meta\",\"count\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ember-taskin/index/template.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "N7vGTPwA", "block": "{\"statements\":[[\"append\",[\"helper\",[\"moment-format\"],[[\"get\",[\"currentTime\"]],\"DD.MM.YYYY HH:mm:ss\"],null],false],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"session\",\"isAuthenticated\"]]],null,8,1]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"append\",[\"helper\",[\"t\"],[\"Login\"],null],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"  \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"It's need authentication to create tasks\"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"login\"],[[\"class\",\"role\"],[\"btn btn-default btn-login\",\"button\"]],0]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"\"],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Next\"],null],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"\"],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Previous\"],null],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                  \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"append\",[\"unknown\",[\"executor\",\"user\",\"full_name\"]],false],[\"text\",\"\\n                  \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"executor\"]},{\"statements\":[[\"append\",[\"unknown\",[\"task\",\"id\"]],false]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"tr\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[[\"helper\",[\"if\"],[[\"get\",[\"task\",\"isOverdue\"]],\"danger\"],null]]]],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"text\",\"\\n              \"],[\"block\",[\"link-to\"],[\"taskcomments\",[\"get\",[\"task\",\"project\",\"id\"]],[\"get\",[\"task\",\"id\"]]],[[\"tagName\",\"class\"],[\"button\",\"btn btn-info\"]],5],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"text\",\"\\n              \"],[\"append\",[\"helper\",[\"moment-format\"],[[\"get\",[\"task\",\"date_created\"]],\"DD.MM.YYYY HH:mm\"],null],false],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"task\",\"subject\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"task\",\"status\",\"name\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"task\",\"customer\",\"person\",\"name\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"moment-format\"],[[\"get\",[\"task\",\"date_exec_max\"]],\"DD.MM.YYYY HH:mm\"],null],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"td\",[]],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"ul\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"task\",\"executors\"]]],null,4],[\"text\",\"              \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"task\"]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"h3\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"(user.person_name)'s tasks for execution\"],[[\"username\"],[[\"get\",[\"user\",\"person_name\"]]]]],false],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"link-to\"],[\"index\",[\"helper\",[\"query-params\"],null,[[\"page\"],[1]]]],null,7],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"table-responsive\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"table\",[]],[\"static-attr\",\"class\",\"table table-hover\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"thead\",[]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"tr\",[]],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Id\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Created date\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Subject\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Status\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Customer\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Deadline for execution\"],null],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"th\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Executor\"],null],false],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"tbody\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"sortedTasks\"]]],null,6],[\"text\",\"      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"pager\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Current page\"],null],false],[\"text\",\": \"],[\"append\",[\"unknown\",[\"page\"]],false],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"index\",[\"helper\",[\"query-params\"],null,[[\"page\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"previous\"]]]]]],[[\"disabled\"],[[\"helper\",[\"if\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"previous\"]],false,true],null]]],3],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"index\",[\"helper\",[\"query-params\"],null,[[\"page\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"next\"]]]]]],[[\"disabled\"],[[\"helper\",[\"if\"],[[\"get\",[\"model\",\"queryTasks\",\"meta\",\"next\"]],false,true],null]]],2],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"append\",[\"helper\",[\"t\"],[\"Total task\"],null],false],[\"text\",\": \"],[\"append\",[\"unknown\",[\"model\",\"queryTasks\",\"meta\",\"count\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ember-taskin/index/template.hbs" } });
 });
 define('ember-taskin/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'ember-taskin/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _emberTaskinConfigEnvironment) {
   var _config$APP = _emberTaskinConfigEnvironment['default'].APP;
@@ -904,7 +905,7 @@ define("ember-taskin/locales/en/translations", ["exports"], function (exports) {
     "edit": "edit",
     "The (person.name)'s tasks in '(session.data.project.name)'": "The {{personname}}'s' tasks in \"{{projectname}}\"",
     "The tasks in '(session.data.project.name)' without executor": "The tasks in \"{{projectname}}\" without executor",
-    "(user.person_name)'s tasks to execution": "{{username}} 's tasks to execution",
+    "(user.person_name)'s tasks for execution": "{{username}} 's tasks for execution",
     "Add new file": "Add new file",
     "Files": "Files",
     "Adding a new file": "Adding a new file",
@@ -1048,7 +1049,7 @@ define("ember-taskin/locales/ru/translations", ["exports"], function (exports) {
     "edit": "редактирование",
     "The (person.name)'s tasks in '(session.data.project.name)'": "Задачи для {{personname}} в \"{{projectname}}\"",
     "The tasks in '(session.data.project.name)' without executor": "Задачи без исполнителя в \"{{projectname}}\"",
-    "(user.person_name)'s tasks to execution": "Задачи к исполнению для {{username}}",
+    "(user.person_name)'s tasks for execution": "Задачи к исполнению для {{username}}",
     "Add new file": "Добавить файл",
     "Files": "Файлы",
     "Adding a new file": "Добавление нового файла",

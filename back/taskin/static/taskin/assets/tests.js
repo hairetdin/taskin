@@ -33,7 +33,7 @@ define('ember-taskin/tests/application/route.lint-test', ['exports'], function (
   QUnit.module('ESLint - application/route.js');
   QUnit.test('should pass ESLint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'application/route.js should pass ESLint.\n49:5  - Unexpected console statement. (no-console)');
+    assert.ok(true, 'application/route.js should pass ESLint.\n');
   });
 });
 define('ember-taskin/tests/authenticators/django.lint-test', ['exports'], function (exports) {

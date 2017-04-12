@@ -2,7 +2,7 @@
 {{#if session.isAuthenticated}}
   {{#link-to 'index' (query-params page=1)}}
     <a href>
-      <h3>{{t "(user.person_name)'s tasks to execution" username=user.person_name}}</h3>
+      <h3>{{t "(user.person_name)'s tasks for execution" username=user.person_name}}</h3>
     </a>
   {{/link-to}}
 
