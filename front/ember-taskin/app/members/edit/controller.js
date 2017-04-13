@@ -2,7 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   i18n: Ember.inject.service(),
-  userValue: '',
+
+  userValue: Ember.computed('model.user.full_name', function() {
+    if (this.get('model.user.full_name')) {
+      return `${this.get('model.user.full_name')}`;
+    }
+    return '';
+  }),
+
   actions: {
     focusedMember: function(){
       //console.log('focusedCustomer');
