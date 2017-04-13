@@ -2,6 +2,8 @@
 
 from django.db import models
 from django.db.models import signals
+from django.core.mail import send_mail
+from django.conf import settings
 
 from django.contrib.auth.models import User
 
@@ -198,3 +200,21 @@ def project_created(sender, instance, created, **kwargs):
         new_task.save()
 
 signals.post_save.connect(project_created, sender=Project)
+
+
+DEFAULT_FROM_EMAIL = getattr(settings, "DEFAULT_FROM_EMAIL", None)
+# when new task created
+# post_save signal from Task to send email to executor
+def task_created(sender, instance, created, **kwargs):
+    recipient_list = []
+    for executor in instance.executors.all():
+        recipient_list.append(executor.user.email)
+    send_mail(
+        instance.subject,
+        instance.about,
+        DEFAULT_FROM_EMAIL,
+        recipient_list,
+        fail_silently=False,
+    )
+
+signals.post_save.connect(task_created, sender=Task)
