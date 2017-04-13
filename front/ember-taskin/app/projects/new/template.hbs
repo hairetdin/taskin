@@ -18,6 +18,11 @@
         </div>
       </div>
       <button class="btn btn-success" type="submit" {{action 'saveProject' model.project}}>{{t "Save"}}</button>
+      {{#link-to 'projects'}}
+        <button class="btn btn-success">
+          {{t "Cancel"}}
+        </button>
+      {{/link-to}}
     </form>
   </div>
 </div>

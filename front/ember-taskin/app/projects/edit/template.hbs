@@ -1,30 +1,109 @@
-<h1>Project "{{model.name}}" detail</h1>
-
-<p>Name: {{model.name}}</p>
-<p>Created: {{model.date_created}}</p>
-<p>About: {{model.about}}</p>
-<p>Creator: {{model.creator.username}}</p>
-<p>Members:</p>
-  <ul>
-  {{#each model.members as |member|}}
-    <li>
-      {{member.id}}
-      {{member.user.username}}
-    </li>
-  {{/each}}
-</ul>
-
-<p>Task statuses:</p>
-  <ul>
-  {{#each model.task_statuses as |task_status|}}
-    <li>
-      {{task_status.name}}
-    </li>
-  {{/each}}
+<div class="col-sm-3 col-md-2 sidebar">
+  {{!-- left menu --}}
+  <ul class="nav nav-sidebar">
+    {{#link-to 'projects.new' tagName="li"}}
+      <a href>{{t "Create new project"}}</a>
+    {{/link-to}}
+    {{#link-to 'projects' tagName="li"}}
+      <a href>{{t "All projects"}}</a>
+    {{/link-to}}
+    {{!--
+    <li></li>
+    --}}
   </ul>
+</div>
+<div class="col-sm-9 main">
+  {{!-- right content --}}
 
-<p>
-  {{#link-to 'tasks' model}}
-    {{t "Tasks"}}
-  {{/link-to}}
-</p>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+
+      <h3>{{t "Project"}} {{model.name}}</h3>
+      <p>{{t "Edit"}}</p>
+      <button class="btn btn-success" type="submit" {{action 'saveProject' model}}>
+        {{t "Save changes"}}
+      </button>
+      {{#link-to 'projects'}}
+        <button class="btn btn-success">
+          {{t "Cancel"}}
+        </button>
+      {{/link-to}}
+    </div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{t "Name"}}
+          </label>
+          <div class="col-sm-9">
+            <input class="form-control" value={{model.name}}>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{t "About"}}
+          </label>
+          <div class="col-sm-9">
+            {{textarea class="form-control" rows="5" value=model.about}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{t "Created"}}
+          </label>
+          <div class="col-sm-9">
+            <input class="form-control" value={{model.date_created}} readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{t "Creator"}}
+          </label>
+          <div class="col-sm-9">
+            <input class="form-control" value={{model.creator.username}} readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{#link-to 'members' model }}{{t "Members"}}{{/link-to}}
+          </label>
+          <div class="col-sm-9">
+            <ul>
+            {{#each model.members as |member|}}
+              <li>
+                {{member.person_name}}
+              </li>
+            {{/each}}
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{#link-to 'taskstatuses' model}}
+              {{t "Task statuses"}}
+            {{/link-to}}
+          </label>
+          <div class="col-sm-9">
+            <ul>
+            {{#each model.task_statuses as |task_status|}}
+              <li>
+                {{task_status.name}}
+              </li>
+            {{/each}}
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">
+            {{#link-to 'tasks' model}}
+              {{t "Total tasks"}}
+            {{/link-to}}
+          </label>
+          <div class="col-sm-9">
+            <input class="form-control" value={{model.tasks.length}} readonly>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

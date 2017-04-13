@@ -1,6 +1,12 @@
 <div class="col-sm-3 col-md-2 sidebar">
   {{!-- left menu --}}
   <ul class="nav nav-sidebar">
+    {{#link-to 'projects.new' tagName="li"}}
+      <a href>{{t "Create new project"}}</a>
+    {{/link-to}}
+    {{#link-to 'projects' tagName="li"}}
+      <a href>{{t "All projects"}}</a>
+    {{/link-to}}
 
     {{!--
     <li></li>
