@@ -46,6 +46,19 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">{{t "Customer"}}:</label>
         <div class="col-sm-8">
+          {{#power-select-with-create
+              options=customers
+              search=(action "searchPerson")
+              selected=model.customer
+              oncreate=(action "createPerson")
+              onchange=(action (mut model.customer))
+              placeholder="Type customer name"
+              searchMessage=(t 'Type to search')
+              as |person term|
+            }}
+            {{person.name}}
+          {{/power-select-with-create}}
+          <!--
           <div class="btn-group btn-block">
             <span class="fa fa-search" id="btn-search" data-toggle="dropdown"></span>
             {{input type="text"
@@ -69,6 +82,7 @@
               {{/each}}
             </ul>
           </div>
+          -->
         </div>
 
         <div class="col-sm-2">

@@ -27,7 +27,7 @@ export default Ember.Route.extend({
     saveTask(newTask) {
       let creator_id = this.controller.get('session.data.authenticated.user.id');
       let creator = this.store.peekRecord('user', creator_id);
-
+      /*
       let newPerson = this.controller.get('newPerson');
       let customer = null;
 
@@ -42,6 +42,7 @@ export default Ember.Route.extend({
           customer = person;
         });
       }
+      */
 
       this.controller.set('model.creator', creator);
       if (this.controller.get('model.status.content') == null) {
@@ -60,6 +61,7 @@ export default Ember.Route.extend({
               taskexecutor.deleteRecord();
             }
           });
+          /*
           if (customer) {
             //console.log('customer id' ,customer.get('id'));
             thisTask.set('customer', customer);
@@ -70,6 +72,8 @@ export default Ember.Route.extend({
           } else {
             this.transitionTo('tasks');
           }
+          */
+          this.transitionTo('tasks');
         });
     },
 

@@ -4,16 +4,43 @@ export default Ember.Controller.extend({
 
   session: Ember.inject.service('session'),
 
+  selectedPerson: '',
+
   userValue: '',
   newPerson: '',
 
   actions: {
+    searchPerson: function(value){
+      this.set('selectedPerson','');
+      this.store.unloadAll('choiceperson');
+      let promisePerson = this.store.query('choiceperson', { name: value });
+      return promisePerson.then(results => {
+        let array = results.toArray(); // convert results to array
+        return array;
+      });
+    },
+
+    createPerson(personName){
+      //create new person
+      let creator_id = this.get('session.data.authenticated.user.id');
+      let creator = this.store.peekRecord('user', creator_id);
+      this.store.createRecord('choiceperson', {
+        name: personName,
+        creator: creator,
+      })
+      .save()
+      .then((person)=>{
+        this.set('model.customer', person);
+      });
+
+    },
+
     customerClick(customer_name, customer){
       //let customer = this.store.findRecord('people/user', customer_id);
       this.set('model.customer', customer);
       this.set("userValue", customer_name);
     },
-
+    /*
     focusedCustomer: function(){
       //console.log('focusedCustomer');
       this.store.unloadAll('choiceperson');
@@ -42,17 +69,18 @@ export default Ember.Controller.extend({
 			}
 		},
 
+    selectCustomer(customer_id) {
+      let customer = this.store.peekRecord('people/user', customer_id);
+      this.set('model.task.customer', customer);
+    },
+    */
+    
     addExecutor(){
       this.store.createRecord('taskexecutor');
     },
 
     removeExecutor(executor){
       executor.deleteRecord();
-    },
-
-    selectCustomer(customer_id) {
-      let customer = this.store.peekRecord('people/user', customer_id);
-      this.set('model.task.customer', customer);
     },
 
     selectTaskstatus(taskstatus_id) {
