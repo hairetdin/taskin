@@ -18,7 +18,10 @@ export default {
   "About this project":"Описание этого проекта",
   "Are you sure?":"Вы уверены?",
   "Total projects":"Всего проектов",
-  "Total tasks":"Total tasks",
+  "Total tasks":"Всего задач",
+  'Type username':'Введите имя пользователя',
+  'Type to search':'Введите поисковый запрос',
+  'No results found':'Ничего не найдено',
 
   //tasboard.task translation
   "Create new task":"Создать новую задачу",

@@ -19,6 +19,9 @@ export default {
   "Are you sure?":"Are you sure?",
   "Total projects":"Total projects",
   "Total tasks":"Total tasks",
+  'Type username':'Type username',
+  'Type to search':'Type to search',
+  'No results found':'No results found',
 
   //tasboard.task translation
   "Create new task":"Create new task",

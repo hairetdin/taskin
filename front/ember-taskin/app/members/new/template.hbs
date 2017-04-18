@@ -1,18 +1,38 @@
-<h2>{{t "New member"}}</h2>
+<h3>{{t "New member"}}</h3>
 
   <form>
     <div class="form-group">
       <label class="col-sm-2 control-label">{{t "Member"}}:</label>
+      <div class="col-sm-10">
+      <!--
       <div class="top dropdown col-sm-10" id="search-bar">
+
         <span class="fa fa-search" id="btn-search" data-toggle="dropdown"></span>
-        {{input type="text" value=userValue focus-in='focusedMember' key-up=(action 'handleFilterMember') autocomplete="off" class="form-control" placeholder="Введите заказчика"}}
+        {{input type="text" value=userValue focus-in='focusedMember' key-up=(action 'handleFilterMember') autocomplete="off" class="form-control" placeholder="Type username"}}
         <ul class="dropdown-menu">
           {{#each choiceUser as |user|}}
             <li class="list-group-item" onclick={{action "memberClick" user.full_name user.id}}>{{user.full_name}}</li>
           {{/each}}
         </ul>
+      -->
+        {{#power-select
+          options=choiceUser
+          search=(action "searchUser")
+          placeholder=(t 'Type username')
+          searchMessage=(t 'Type to search')
+          noMatchesMessage=(t 'No results found')
+          selected=selectedUser
+          onchange=(action (mut selectedUser))
+          as |user|
+          }}
+          {{user.full_name}}
+        {{/power-select}}
       </div>
     </div>
+    <div class="col-sm-12">
+      <br>
+    </div>
+
     <div class="form-group">
       <label class="col-sm-2 control-label">{{t "Right"}}:</label>
       <div class="col-sm-10">

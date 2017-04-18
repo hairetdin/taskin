@@ -16,9 +16,17 @@ export default Ember.Route.extend({
   actions: {
     addMember(newMember) {
       //console.log(newMember);
-      newMember.save().then(() =>{
-        this.transitionTo('members', this.modelFor('projects/show'));
-      });
+      let selectedUser = this.controller.get('selectedUser');
+      let user_id = selectedUser.get('id')
+      let model = this.controller.get('model');
+      let _this = this;
+      this.store.findRecord('user', user_id)
+        .then(function(user){
+          model.set('user', user);
+          newMember.save().then(() =>{
+            _this.transitionTo('members', _this.modelFor('projects/show'));
+          });
+        });
     },
 
     willTransition(/*transition*/) {
