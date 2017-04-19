@@ -64,6 +64,7 @@ export default {
   "Files": "Файлы",
   "Adding a new file": "Добавление нового файла",
   "Uploaded": "Загрузил(а)",
+  'Create ':'Создать ',
 
 
   // taskboard.taskcomments translation

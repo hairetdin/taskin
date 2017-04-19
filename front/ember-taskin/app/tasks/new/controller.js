@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
   session: Ember.inject.service('session'),
+  i18n: Ember.inject.service(),
 
   selectedPerson: '',
 
@@ -10,6 +11,11 @@ export default Ember.Controller.extend({
   newPerson: '',
 
   actions: {
+    customSuggestion(term) {
+      //change 'Add' message
+      return this.get('i18n').t('Create ') + `${term}`;
+    },
+
     searchPerson: function(value){
       this.set('selectedPerson','');
       this.store.unloadAll('choiceperson');
@@ -74,7 +80,7 @@ export default Ember.Controller.extend({
       this.set('model.task.customer', customer);
     },
     */
-    
+
     addExecutor(){
       this.store.createRecord('taskexecutor');
     },

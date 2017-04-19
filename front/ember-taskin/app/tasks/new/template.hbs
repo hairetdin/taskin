@@ -54,6 +54,7 @@
               onchange=(action (mut model.customer))
               placeholder="Type customer name"
               searchMessage=(t 'Type to search')
+              buildSuggestion=(action "customSuggestion")
               as |person term|
             }}
             {{person.name}}
