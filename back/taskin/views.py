@@ -93,6 +93,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = User.objects.all()
         full_name = self.request.query_params.get('full_name')
+        projects_member = self.request.query_params.get('projects_member')
+        if projects_member:
+            queryset = queryset.filter(projects_member = projects_member)
         if full_name:
             queryset = queryset.filter( Q(first_name__icontains = full_name) |
                                         Q(last_name__icontains = full_name)|
@@ -211,6 +214,15 @@ class ProjectMemberViewSet(viewsets.ModelViewSet):
     filter_fields = ('project', )
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return ProjectMember.objects.all()
-        return ProjectMember.objects.filter(project__members=self.request.user)
+        queryset = self.queryset
+        user = self.request.query_params.get('user')
+        project = self.request.query_params.get('project')
+        #if self.request.user.is_superuser:
+        #    return ProjectMember.objects.all()
+        #return ProjectMember.objects.filter(project__members=self.request.user)
+        if user:
+            queryset = queryset.filter(user = user)
+        if project:
+            queryset = queryset.filter(project = project)
+
+        return queryset

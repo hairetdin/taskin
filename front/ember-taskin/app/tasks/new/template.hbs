@@ -106,6 +106,17 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">{{t "Executors"}}:</label>
         <div class="col-sm-10">
+          {{#power-select-multiple
+            searchField="full_name"
+            options=projectsMember
+            selected=executors
+            placeholder="Select some names..."
+            onchange=(action (mut executors))
+            as |member|
+          }}
+            {{member.full_name}}
+          {{/power-select-multiple}}
+          <!--
           {{#each taskexecutors as |taskexecutor|}}
               <select class="form-control" onchange={{action (action "selectExecutor" taskexecutor) value="target.value"}}>
                 <option value="{{taskexecutor.executor.id}}">{{taskexecutor.executor.user.full_name}}</option>
@@ -120,6 +131,7 @@
               <p></p>
           {{/each}}
           <button class="btn btn-info pull-right" {{action 'addExecutor'}}>{{t "Add executor"}}</button>
+          -->
         </div>
       </div>
       <button class="btn btn-success" type="submit" {{action 'saveTask' model}}>{{t "Save"}}</button>

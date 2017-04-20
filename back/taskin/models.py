@@ -213,6 +213,9 @@ def task_created(sender, instance, created, **kwargs):
 
             recipient_list = []
             recipient_list.append(instance.executor.user.email)
+            customer = ''
+            about = ''
+            date_exec_max = ''
 
             try:
                 customer = instance.task.customer.name
@@ -229,9 +232,12 @@ def task_created(sender, instance, created, **kwargs):
             except:
                 date_exec_max = ''
 
+            '''
             message = ugettext('Customer: ') + customer + '\n' + '\n' + \
                 ugettext('Task detail: ') + '\n' + about + '\n' + '\n' + \
-                ugettext('Deadline for execution: ') + date_exec_max
+                ugettext('Deadline for execution: ') + date_exec_max.
+            '''
+            message = ugettext('Customer: ') + customer 
 
             send_mail(
                 subject,

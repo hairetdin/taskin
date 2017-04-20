@@ -5,10 +5,10 @@ export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
   i18n: Ember.inject.service(),
 
-  selectedPerson: '',
+  //selectedPerson: '',
 
-  userValue: '',
-  newPerson: '',
+  //userValue: '',
+  //newPerson: '',
 
   actions: {
     customSuggestion(term) {
@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
     },
 
     searchPerson: function(value){
-      this.set('selectedPerson','');
+      //this.set('selectedPerson','');
       this.store.unloadAll('choiceperson');
       let promisePerson = this.store.query('choiceperson', { name: value });
       return promisePerson.then(results => {
@@ -40,12 +40,21 @@ export default Ember.Controller.extend({
       });
 
     },
-
+    /*
     customerClick(customer_name, customer){
       //let customer = this.store.findRecord('people/user', customer_id);
       this.set('model.customer', customer);
       this.set("userValue", customer_name);
     },
+    */
+
+    /*
+    searchExecutor(value){
+      console.log(value);
+      this.store.queryRecord('choiceuser',{full_name: value})
+
+    },
+    */
     /*
     focusedCustomer: function(){
       //console.log('focusedCustomer');
@@ -80,7 +89,7 @@ export default Ember.Controller.extend({
       this.set('model.task.customer', customer);
     },
     */
-
+    /*
     addExecutor(){
       this.store.createRecord('taskexecutor');
     },
@@ -88,21 +97,24 @@ export default Ember.Controller.extend({
     removeExecutor(executor){
       executor.deleteRecord();
     },
+    */
 
     selectTaskstatus(taskstatus_id) {
       let taskstatus = this.store.peekRecord('taskstatus', taskstatus_id);
       this.set('model.status', taskstatus);
     },
-
+    /*
     selectExecutor(taskexecutor, member_id) {
       let member = this.store.peekRecord('member', member_id);
       taskexecutor.set('executor', member);
       //console.log(taskexecutor.get('executor.user.username'));
     },
 
+
     selectProject(project_id) {
       let project = this.store.peekRecord('project', project_id);
       this.set('model.task.project', project);
     },
+    */
   }
 });

@@ -5,6 +5,7 @@ export default DS.Model.extend({
   username: DS.attr('string'),
   first_name: DS.attr('string'),
   last_name: DS.attr('string'),
+  projects_member: DS.hasMany('project', { inverse: null }),
   //person: DS.belongsTo('company/person', { inverse: null }),
   full_name: Ember.computed('first_name' ,'last_name', function(){
     if (this.get('first_name')) {
