@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'taskin.apps.TaskinConfig',
 ]
 
+# Taskin settings
+#you can change Person model, where app - app name and Person is a model in app
+#TASKIN_PERSON_MODEL = 'app.Person' 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

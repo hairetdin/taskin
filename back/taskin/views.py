@@ -13,6 +13,12 @@ from rest_framework import status
 
 from .models import (Project, TaskStatus, Task, ProjectMember, TaskExecutor,
     TaskComment, TaskFile, Person)
+
+from django.conf import settings
+from django.apps import apps
+PERSON_MODEL = getattr(settings, "TASKIN_PERSON_MODEL", 'taskin.Person')
+PERSON = apps.get_model(PERSON_MODEL)
+
 from .serializers import (ProjectSerializer, TaskStatusSerializer,
     TaskSerializer, ProjectMemberSerializer, TaskExecutorSerializer,
     PeopleSerializer, UserSerializer, TaskCommentSerializer,
@@ -105,12 +111,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class PeopleViewSet(viewsets.ModelViewSet):
-    queryset = Person.objects.all()
+    queryset = PERSON.objects.all()
     serializer_class = PeopleSerializer
     #filter_backends = (DjangoFilterBackend,)
     #filter_fields = ('name',)
     def get_queryset(self):
-        queryset = Person.objects.all()
+        queryset = PERSON.objects.all()
         name = self.request.query_params.get('name')
         if name:
             queryset = queryset.filter(name__contains=name)

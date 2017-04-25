@@ -6,6 +6,12 @@
     </div>
     {{#if session.isAuthenticated}}
       <ul class="nav navbar-nav">
+        {{#link-to 'projects' tagName="li"}}
+          <a href>{{t "Projects"}}</a>
+        {{/link-to}}
+      </ul>
+      <!--
+      <ul class="nav navbar-nav">
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             {{t "Projects"}} <span class="caret"></span>
@@ -17,11 +23,12 @@
             {{#link-to 'projects.new' tagName="li"}}
               <a href>{{t "Create new project"}}</a>
             {{/link-to}}
-            {{!-- <li><a href="#">Page 1-1</a></li> --}}
+
           </ul>
         </li>
 
       </ul>
+      -->
 
       <form class="navbar-form navbar-left">
         <div class="form-group">
